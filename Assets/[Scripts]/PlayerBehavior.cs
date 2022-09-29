@@ -10,10 +10,14 @@ public class PlayerBehavior : MonoBehaviour
     public Boundary boundary;
     private Camera camera;
 
+    public ScoreManager scoreManager;
+
 
     // Start is called before the first frame update
     void Start()
     {
+        scoreManager = FindObjectOfType<ScoreManager>();
+
         transform.position = Vector2.zero;
         camera = Camera.main;
     }
@@ -24,6 +28,11 @@ public class PlayerBehavior : MonoBehaviour
 
         GetConventionalInput();
         GetMobileInput();
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            scoreManager.AddPoint(10);
+        }
     }
 
     public void GetConventionalInput()
