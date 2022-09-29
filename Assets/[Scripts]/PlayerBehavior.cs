@@ -1,0 +1,68 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerBehavior : MonoBehaviour
+{
+    [SerializeField]
+    private float speed = 10;
+
+    public Boundary boundary;
+    private Camera camera;
+
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        transform.position = Vector2.zero;
+        camera = Camera.main;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+        GetConventionalInput();
+        GetMobileInput();
+    }
+
+    public void GetConventionalInput()
+    {
+        float x = Input.GetAxis("Horizontal");
+        float y = Input.GetAxis("Vertical");
+
+        float moveSpeedX = x * speed * Time.deltaTime;
+        float moveSpeedY = y * speed * Time.deltaTime;
+
+        transform.position = new Vector2(transform.position.x + moveSpeedX, transform.position.y + moveSpeedY);
+        CheckBound();
+    }
+
+    public void CheckBound()
+    {
+        if (transform.position.x < boundary.min)
+        {
+            transform.position = new Vector2(boundary.min, transform.position.y);
+        }
+
+        if (transform.position.x > boundary.max)
+        {
+            transform.position = new Vector2(boundary.max, transform.position.y);
+        }
+    }
+
+    public void GetMobileInput()
+    {
+       
+        foreach(Touch touch in Input.touches)
+        {
+            Vector3 destination = camera.ScreenToWorldPoint(touch.position);
+            //transform.position = new Vector3(destination.x, destination.y);
+            //transform.position = touch.position;
+            transform.position = Vector2.Lerp(transform.position, destination, Time.deltaTime * speed);
+        }
+
+
+        CheckBound();
+    }
+}
