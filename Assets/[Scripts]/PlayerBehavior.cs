@@ -38,12 +38,12 @@ public class PlayerBehavior : MonoBehaviour
     public void GetConventionalInput()
     {
         float x = Input.GetAxis("Horizontal");
-        float y = Input.GetAxis("Vertical");
+        //float y = Input.GetAxis("Vertical");
 
         float moveSpeedX = x * speed * Time.deltaTime;
-        float moveSpeedY = y * speed * Time.deltaTime;
+        //float moveSpeedY = y * speed * Time.deltaTime;
 
-        transform.position = new Vector2(transform.position.x + moveSpeedX, transform.position.y + moveSpeedY);
+        transform.position = new Vector2(transform.position.x + moveSpeedX, -4);
         CheckBound();
     }
 
